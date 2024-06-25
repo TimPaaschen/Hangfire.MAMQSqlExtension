@@ -19,6 +19,18 @@ namespace Hangfire.MAMQSqlExtension
             _queues = queues;
         }
 
+        public MAMQSqlServerStorage(System.Func<System.Data.Common.DbConnection> connectionFactory, SqlServerStorageOptions options, IEnumerable<string>? queues)
+        {
+            _inner = new SqlServerStorage(connectionFactory, options);
+            _queues = queues;
+        }
+
+        public MAMQSqlServerStorage(System.Data.Common.DbConnection existingConnection, SqlServerStorageOptions options, IEnumerable<string>? queues)
+        {
+            _inner = new SqlServerStorage(existingConnection, options);
+            _queues = queues;
+        }
+    
         public override bool LinearizableReads => _inner.LinearizableReads;
 
         public override IStorageConnection GetConnection()
